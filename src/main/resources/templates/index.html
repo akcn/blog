@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: site-head">
+    <title>xiaoyanming's blog</title>
+</head>
+<body>
+<header th:replace="layout :: site-header"> </header>
+
+<main id="posts" class="container"></main>
+<div id="loading"></div>
+
+<footer th:replace="layout :: site-footer"> </footer>
+</body>
+
+<script>
+    let posts = []
+    let pageSize = 6;
+    let curPage = 0;
+
+    $(function(){
+        getPosts()
+    })
+
+    $(window).scroll(function () {
+        let docHeight = $(document).height();
+        let winHeight = $(this).height();
+        let winScrollHeight = $(this).scrollTop();
+        if (winHeight + winScrollHeight === docHeight) {
+            curPage++;
+            getPosts();
+        }
+    });
+
+    function getPosts(){
+        $("#loading").append('<div class="loadAnimation"></div>\n' +
+            '        <div class="loadAnimation"></div>\n' +
+            '        <div class="loadAnimation"></div>\n' +
+            '        <div class="loadAnimation"></div>\n' +
+            '        <div class="loadAnimation"></div>\n' +
+            '        <div class="loadAnimation"></div>');
+        $.get('/api/posts', {curPage: curPage, pageSize: pageSize}, function (data) {
+            console.log(data)
+            $("#loading").empty();
+            posts = data
+            appendArticle()
+
+        })
+    }
+
+    function appendArticle() {
+        posts.forEach(d => {
+            $('#posts').append(
+                `<article >
+                    <h2 class="title" >${d.title}</h2>
+                    <div class="date">
+                        <i>Posted on</i>
+                        <span>${d.date}</span>
+                        <span >
+                          <i>by</i>
+                          <span >${d.author}</span>
+                        </span>
+                    </div>
+                    <p class="content">${d.html}</p>
+                </article>`
+            )
+        })
+    }
+</script>
+</html>

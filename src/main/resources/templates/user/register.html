@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="layout :: site-head">
+    <title>Registration</title>
+  </head>
+
+  <body>
+
+  <header th:replace="layout :: site-header"/>
+<div class="container">
+  <h2>注册用户</h2>
+
+  <form class="login" method="post" th:object="${registerForm}" th:action="@{/user/register}">
+    <div>
+      <label for="username">用户名:</label>
+    </div>
+    <input id="username" type="text" name="username" th:value="*{username}" />
+    <span class="formError" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Invalid username</span>
+
+    <div>
+      <label for="password" >密码:</label>
+    </div>
+    <input id="password" type="password" name="password" th:value="*{password}" />
+    <span class="formError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Invalid password</span>
+
+    <div>
+      <label for="password2" >确认密码:</label>
+    </div>
+    <input id="password2" type="password" name="password2" th:value="*{password2}"/>
+    <span  class="formError" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}">Invalid password</span>
+
+    <div>
+      <a href="login.html" th:href="@{/user/login}">[ 登录 ]</a> <br>
+      <input type="submit" value="创建账户" />
+    </div>
+
+
+  </form>
+</div>
+  <footer th:replace="layout :: site-footer"/>
+
+  </body>
+
+
+</html>

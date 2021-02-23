@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: site-head">
+    <title>Posts</title>
+</head>
+
+<body>
+<header th:replace="layout :: site-header"/>
+
+<main id="posts" class="container">
+    <table class="table table-bordered" width="100%" id="dataTable" cellspacing="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>标题</th>
+            <th>日期</th>
+            <th>作者ID</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td th:text="${post.id}">ID</td>
+            <td th:text="${post.title}">Title</td>
+            <td th:text="${post.date}">Date</td>
+            <td th:text="${post.author.id}">Full Name</td>
+            <td>
+                <a href="edit.html" th:href="@{/post/edit/} + ${post.id}">[ 修改 ]</a>
+                <a href="delete.html" th:href="@{/post/delete/} + ${post.id}">[ 删除 ]</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer th:replace="layout :: site-footer"/>
+</body>
+</html>
